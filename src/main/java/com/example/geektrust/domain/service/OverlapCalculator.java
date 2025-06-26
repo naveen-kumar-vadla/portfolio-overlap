@@ -23,6 +23,7 @@ public class OverlapCalculator {
     List<String> result = new ArrayList<>();
     for (Fund portfolioFund : portfolio.getFunds()) {
       Double percentage = overlapPercentage(fund, portfolioFund);
+      if (percentage <= 0.0) continue;
       String overLap = String.format("%s %s %.2f%%", fund.getName(), portfolioFund.getName(), percentage);
       result.add(overLap);
     }

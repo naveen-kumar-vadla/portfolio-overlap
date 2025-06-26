@@ -1,5 +1,7 @@
 package com.example.geektrust.util;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -7,6 +9,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import com.example.geektrust.domain.model.Fund;
@@ -17,7 +20,13 @@ public class FileReader {
   public static List<List<String>> readCommands(String filePath) throws Exception {
     validateFilePath(filePath);
 
-    List<String> lines = Files.readAllLines(Paths.get(filePath));
+    List<String> lines = new ArrayList<>();
+    FileInputStream fileInputStream = new FileInputStream(filePath);
+    Scanner scanner = new Scanner(fileInputStream);
+    while (scanner.hasNextLine()) {
+      lines.add(scanner.nextLine());
+    }
+
     return lines.stream()
         .map(l -> Arrays.asList(l.trim().split(" ")))
         .collect(Collectors.toList());

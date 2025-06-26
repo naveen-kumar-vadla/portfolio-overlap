@@ -39,8 +39,8 @@ class FileReaderTest {
     @Test
     void shouldThrowExceptionForWhenFileNotFound() {
       String filePath = "sample_input/unknown.txt";
-      Exception exception = assertThrows(NoSuchFileException.class, () -> FileReader.readCommands(filePath));
-      assertEquals(filePath, exception.getMessage());
+      Exception exception = assertThrows(FileNotFoundException.class, () -> FileReader.readCommands(filePath));
+      assertEquals(filePath + " (No such file or directory)", exception.getMessage());
     }
   }
 

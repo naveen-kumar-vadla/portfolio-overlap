@@ -5,8 +5,6 @@ import com.example.geektrust.domain.model.Portfolio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,11 +28,14 @@ class OverlapCalculatorTest {
     fundB.addStock("stock1");
     fundB.addStock("stock2");
 
+    Fund fundC = new Fund("fundB");
+
     portfolio = new Portfolio();
     portfolio.addFund(fundB);
+    portfolio.addFund(fundC);
 
     fundManager = new FundManager();
-    fundManager.loadFunds(Arrays.asList(fundA, fundB));
+    fundManager.loadFunds(Arrays.asList(fundA, fundB, fundC));
   }
 
   @Test
