@@ -9,10 +9,12 @@ import com.example.geektrust.util.FileReader;
 
 import java.util.List;
 
+import static com.example.geektrust.util.AppConstants.ZERO;
+
 public class Main {
   public static void main(String[] args) {
     try {
-      String filePath = args.length > 0 ? args[0] : null;
+      String filePath = args.length > ZERO ? args[ZERO] : null;
       List<List<String>> commands = FileReader.readCommands(filePath);
 
       String stocksFilePath = "stock_data.json";

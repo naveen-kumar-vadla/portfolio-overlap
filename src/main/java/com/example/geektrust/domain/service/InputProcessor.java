@@ -7,6 +7,8 @@ import com.example.geektrust.domain.model.Portfolio;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.geektrust.util.AppConstants.*;
+
 public class InputProcessor {
   private final FundManager fundManager;
   private final Portfolio portfolio;
@@ -22,7 +24,7 @@ public class InputProcessor {
 
   public List<String> processCommands(List<List<String>> commands) {
     for (List<String> commandLine : commands) {
-      String commandType = commandLine.get(0);
+      String commandType = commandLine.get(COMMAND_INDEX);
       switch (commandType) {
         case "CURRENT_PORTFOLIO":
           generatePortfolio(commandLine);
@@ -40,7 +42,7 @@ public class InputProcessor {
   }
 
   private void generatePortfolio(List<String> commandLine) {
-    List<String> funds = commandLine.subList(1, commandLine.size());
+    List<String> funds = commandLine.subList(FUND_NAME_INDEX, commandLine.size());
     funds.forEach(fundName -> {
       Fund fund = fundManager.getFundByName(fundName);
       portfolio.addFund(fund);
@@ -48,14 +50,14 @@ public class InputProcessor {
   }
 
   private void addStockToFund(List<String> commandLine) {
-    String fundName = commandLine.get(1);
-    String stockName = String.join(" ", commandLine.subList(2, commandLine.size()));
+    String fundName = commandLine.get(FUND_NAME_INDEX);
+    String stockName = String.join(" ", commandLine.subList(STOCK_NAME_INDEX, commandLine.size()));
     Fund fund = fundManager.getFundByName(fundName);
     fund.addStock(stockName);
   }
 
   private void calculateOverlap(List<String> commandLine) {
-    String fundName = commandLine.get(1);
+    String fundName = commandLine.get(FUND_NAME_INDEX);
     try {
       Fund fund = fundManager.getFundByName(fundName);
       this.result.addAll(overlapCalculator.calculate(fund, portfolio));

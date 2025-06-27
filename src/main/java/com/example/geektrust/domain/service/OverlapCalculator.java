@@ -7,12 +7,14 @@ import com.example.geektrust.domain.model.Stock;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.example.geektrust.util.AppConstants.*;
+
 public class OverlapCalculator {
   public List<String> calculate(Fund fund, Portfolio portfolio) {
     List<String> result = new ArrayList<>();
     for (Fund portfolioFund : portfolio.getFunds()) {
       Double percentage = overlapPercentage(fund, portfolioFund);
-      if (percentage <= 0.0) continue;
+      if (percentage <= MIN_PERCENTAGE) continue;
       String overLap = String.format("%s %s %.2f%%", fund.getName(), portfolioFund.getName(), percentage);
       result.add(overLap);
     }
@@ -21,7 +23,7 @@ public class OverlapCalculator {
 
   private Double overlapPercentage(Fund first, Fund second) {
     List<Stock> commonStocks = getCommonStocks(first, second);
-    return 2.0 * (commonStocks.size()) / (first.getStocks().size() + second.getStocks().size()) * 100.0;
+    return COMMON_STOCKS_MULTIPLIER * (commonStocks.size()) / (first.getStocks().size() + second.getStocks().size()) * MAX_PERCENTAGE;
   }
 
   private List<Stock> getCommonStocks(Fund first, Fund second) {
