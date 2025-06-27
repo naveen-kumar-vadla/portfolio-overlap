@@ -64,4 +64,15 @@ class InputProcessorTest {
     assertEquals(1, overlap.size());
     assertEquals(fundAName + " " + fundBName + " 80.00%", overlap.get(0));
   }
+
+  @Test
+  void shouldProvideNotFoundForCalculateOverlapWhenFundNotFound() {
+    List<String> currentPortfolio = Arrays.asList("CURRENT_PORTFOLIO", fundBName);
+    List<String> calculateOverlap = Arrays.asList("CALCULATE_OVERLAP", "UNKNOWN");
+    List<List<String>> commands = Arrays.asList(currentPortfolio, calculateOverlap);
+    List<String> overlap = inputProcessor.processCommands(commands);
+    assertNotNull(overlap);
+    assertEquals(1, overlap.size());
+    assertEquals("FUND_NOT_FOUND", overlap.get(0));
+  }
 }

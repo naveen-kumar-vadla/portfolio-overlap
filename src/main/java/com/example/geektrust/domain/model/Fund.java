@@ -2,7 +2,6 @@ package com.example.geektrust.domain.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Fund {
   String name;
@@ -24,11 +23,5 @@ public class Fund {
 
   public List<Stock> getStocks() {
     return stocks;
-  }
-
-  public List<Stock> getCommonStocks(Fund anotherFund) {
-    return getStocks().stream()
-        .filter(stock -> anotherFund.getStocks().contains(stock))
-        .collect(Collectors.toList());
   }
 }

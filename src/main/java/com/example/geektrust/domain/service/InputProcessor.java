@@ -1,5 +1,6 @@
 package com.example.geektrust.domain.service;
 
+import com.example.geektrust.domain.exception.FundNotFound;
 import com.example.geektrust.domain.model.Fund;
 import com.example.geektrust.domain.model.Portfolio;
 
@@ -55,7 +56,11 @@ public class InputProcessor {
 
   private void calculateOverlap(List<String> commandLine) {
     String fundName = commandLine.get(1);
-    List<String> overlap = overlapCalculator.calculate(fundName, portfolio, fundManager);
-    this.result.addAll(overlap);
+    try {
+      Fund fund = fundManager.getFundByName(fundName);
+      this.result.addAll(overlapCalculator.calculate(fund, portfolio));
+    } catch (FundNotFound e) {
+      this.result.add("FUND_NOT_FOUND");
+    }
   }
 }
