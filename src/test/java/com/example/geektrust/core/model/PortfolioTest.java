@@ -1,4 +1,4 @@
-package com.example.geektrust.core;
+package com.example.geektrust.core.model;
 
 import com.example.geektrust.AppConstants;
 import org.junit.jupiter.api.Test;

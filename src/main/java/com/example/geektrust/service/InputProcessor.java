@@ -1,8 +1,8 @@
 package com.example.geektrust.service;
 
 import com.example.geektrust.exception.FundNotFound;
-import com.example.geektrust.core.Fund;
-import com.example.geektrust.core.Portfolio;
+import com.example.geektrust.core.model.Fund;
+import com.example.geektrust.core.model.Portfolio;
 
 import java.util.ArrayList;
 import java.util.Collections;

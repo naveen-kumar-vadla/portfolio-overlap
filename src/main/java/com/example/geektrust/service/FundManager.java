@@ -2,7 +2,7 @@ package com.example.geektrust.service;
 
 import com.example.geektrust.dto.StockDataDTO;
 import com.example.geektrust.exception.FundNotFound;
-import com.example.geektrust.core.Fund;
+import com.example.geektrust.core.model.Fund;
 
 import java.util.ArrayList;
 import java.util.List;

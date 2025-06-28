@@ -2,7 +2,7 @@ package com.example.geektrust;
 
 
 import com.example.geektrust.dto.StockDataDTO;
-import com.example.geektrust.core.Portfolio;
+import com.example.geektrust.core.model.Portfolio;
 import com.example.geektrust.service.FundManager;
 import com.example.geektrust.service.InputProcessor;
 import com.example.geektrust.util.FileReader;

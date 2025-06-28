@@ -1,4 +1,4 @@
-package com.example.geektrust.core;
+package com.example.geektrust.core.model;
 
 import org.junit.jupiter.api.Test;
 
