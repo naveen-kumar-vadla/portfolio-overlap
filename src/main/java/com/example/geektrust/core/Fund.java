@@ -1,9 +1,10 @@
 package com.example.geektrust.core;
 
+import com.example.geektrust.dto.FundDTO;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static com.example.geektrust.AppConstants.COMMON_STOCKS_MULTIPLIER;
 import static com.example.geektrust.AppConstants.MAX_PERCENTAGE;
@@ -15,6 +16,12 @@ public class Fund {
   public Fund(String fundName) {
     this.name = fundName;
     this.stocks = new ArrayList<>();
+  }
+
+  public static Fund create(FundDTO fundDTO) {
+    Fund fund = new Fund(fundDTO.getName());
+    fundDTO.getStocks().forEach(fund::addStock);
+    return fund;
   }
 
   public String getName() {

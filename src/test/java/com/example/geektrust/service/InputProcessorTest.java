@@ -1,6 +1,7 @@
 package com.example.geektrust.service;
 
-import com.example.geektrust.core.Fund;
+import com.example.geektrust.dto.FundDTO;
+import com.example.geektrust.dto.StockDataDTO;
 import com.example.geektrust.core.Portfolio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,26 +17,19 @@ class InputProcessorTest {
   private Portfolio portfolio;
   private final String fundAName = "fundA";
   private final String fundBName = "fundB";
-  private final String fundCName = "fundC";
-  private Fund fundB;
   private InputProcessor inputProcessor;
+  private FundManager fundManager;
 
   @BeforeEach
   void setUp() {
-    Fund fundA = new Fund(fundAName);
-    fundA.addStock("stock1");
-    fundA.addStock("stock2");
-    fundA.addStock("stock3");
-
-    fundB = new Fund(fundBName);
-    fundB.addStock("stock1");
-    fundB.addStock("stock2");
-
-    Fund fundC = new Fund(fundCName);
+    FundDTO fundA = new FundDTO(fundAName, Arrays.asList("stock1", "stock2", "stock3"));
+    FundDTO fundB = new FundDTO(fundBName, Arrays.asList("stock1", "stock2"));
+    FundDTO fundC = new FundDTO("fundC");
+    List<FundDTO> funds = Arrays.asList(fundA, fundB, fundC);
+    StockDataDTO data = new StockDataDTO(funds);
+    fundManager = new FundManager();
     portfolio = new Portfolio();
-
-    FundManager fundManager = new FundManager();
-    fundManager.loadFunds(Arrays.asList(fundA, fundB, fundC));
+    fundManager.loadFunds(data);
     inputProcessor = new InputProcessor(fundManager, portfolio);
   }
 
@@ -49,11 +43,11 @@ class InputProcessorTest {
 
   @Test
   void shouldProcessAddStockCommand() {
-    String stock3 = "stock3";
-    List<String> addStock = Arrays.asList(ADD_STOCK, fundBName, stock3);
+    String stockName = "stockName";
+    List<String> addStock = Arrays.asList(ADD_STOCK, fundBName, stockName);
     List<List<String>> commands = Collections.singletonList(addStock);
     inputProcessor.processCommands(commands);
-    assertTrue(fundB.hasStock(stock3));
+    assertTrue(fundManager.getFundByName(fundBName).hasStock(stockName));
   }
 
   @Test

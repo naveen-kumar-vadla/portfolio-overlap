@@ -1,10 +1,10 @@
 package com.example.geektrust;
 
 
+import com.example.geektrust.dto.StockDataDTO;
 import com.example.geektrust.core.Portfolio;
 import com.example.geektrust.service.FundManager;
 import com.example.geektrust.service.InputProcessor;
-import com.example.geektrust.core.Fund;
 import com.example.geektrust.util.FileReader;
 
 import java.util.List;
@@ -18,9 +18,9 @@ public class Main {
       List<List<String>> commands = FileReader.readCommands(filePath);
 
       String stocksFilePath = "stock_data.json";
-      List<Fund> funds = FileReader.readStockDataFromResources(stocksFilePath);
+      StockDataDTO data = FileReader.readStockDataFromResources(stocksFilePath);
       FundManager fundManager = new FundManager();
-      fundManager.loadFunds(funds);
+      fundManager.loadFunds(data);
 
       Portfolio portfolio = new Portfolio();
       InputProcessor inputProcessor = new InputProcessor(fundManager, portfolio);

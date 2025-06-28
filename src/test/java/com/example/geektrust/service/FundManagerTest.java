@@ -1,7 +1,10 @@
 package com.example.geektrust.service;
 
+import com.example.geektrust.dto.FundDTO;
+import com.example.geektrust.dto.StockDataDTO;
 import com.example.geektrust.exception.FundNotFound;
 import com.example.geektrust.core.Fund;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -11,47 +14,49 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FundManagerTest {
   private final FundManager fundManager = new FundManager();
+  private final String fundAName = "FundA";
+  private List<FundDTO> funds;
+
+  @BeforeEach
+  void setUp() {
+    funds = new ArrayList<>();
+  }
 
   @Test
   void shouldLoadAndGetFunds() {
-    String fundA = "FundA";
-    String fundB = "FundB";
-    String fundC = "FundC";
+    funds.add(new FundDTO(fundAName));
 
-    List<Fund> funds = new ArrayList<>();
-    funds.add(new Fund(fundA));
-    funds.add(new Fund(fundB));
-    funds.add(new Fund(fundC));
+    String fundBName = "FundB";
+    funds.add(new FundDTO(fundBName));
 
-    fundManager.loadFunds(funds);
-    assertNotNull(fundManager.getFundByName(fundA));
-    assertNotNull(fundManager.getFundByName(fundB));
-    assertNotNull(fundManager.getFundByName(fundC));
+    String fundCName = "FundC";
+    funds.add(new FundDTO(fundCName));
+
+    StockDataDTO data = new StockDataDTO(funds);
+    fundManager.loadFunds(data);
+    assertNotNull(fundManager.getFundByName(fundAName));
+    assertNotNull(fundManager.getFundByName(fundBName));
+    assertNotNull(fundManager.getFundByName(fundCName));
   }
 
   @Test
   void shouldThrowForMissingFund() {
-    String fundA = "FundA";
-
-    List<Fund> funds = new ArrayList<>();
-
-    fundManager.loadFunds(funds);
-    assertThrows(FundNotFound.class, () -> fundManager.getFundByName(fundA));
+    StockDataDTO data = new StockDataDTO(funds);
+    fundManager.loadFunds(data);
+    assertThrows(FundNotFound.class, () -> fundManager.getFundByName(fundAName));
   }
 
   @Test
   void shouldAddStock() {
-    String fundA = "FundA";
+    funds.add(new FundDTO(fundAName));
+    StockDataDTO data = new StockDataDTO(funds);
 
-    List<Fund> funds = new ArrayList<>();
-    Fund fund = new Fund(fundA);
-    funds.add(fund);
-
-    fundManager.loadFunds(funds);
-    assertNotNull(fundManager.getFundByName(fundA));
+    fundManager.loadFunds(data);
+    assertNotNull(fundManager.getFundByName(fundAName));
 
     String stockName = "StockX";
-    fundManager.addStock(fundA, stockName);
+    fundManager.addStock(fundAName, stockName);
+    Fund fund = fundManager.getFundByName(fundAName);
     assertTrue(fund.hasStock(stockName));
   }
 }

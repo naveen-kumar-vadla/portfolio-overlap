@@ -2,15 +2,14 @@ package com.example.geektrust.util;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-import com.example.geektrust.core.Fund;
-import com.fasterxml.jackson.databind.JsonNode;
+import com.example.geektrust.dto.StockDataDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static com.example.geektrust.AppConstants.SPACE_DELIMITER;
@@ -37,33 +36,12 @@ public class FileReader {
     }
   }
 
-  public static List<Fund> readStockDataFromResources(String resourcePath) throws Exception {
+  public static StockDataDTO readStockDataFromResources(String resourcePath) throws Exception {
     validateFilePath(resourcePath);
-    InputStream inputStream = ClassLoader.getSystemResourceAsStream(resourcePath);
-
-    if (inputStream == null) {
+    URL url = ClassLoader.getSystemResource(resourcePath);
+    if (url == null) {
       throw new FileNotFoundException("Resource not found: " + resourcePath);
     }
-
-    JsonNode data = new ObjectMapper().readTree(inputStream);
-    List<Fund> funds = new ArrayList<>();
-
-    for (JsonNode fundNode : data.get("funds")) {
-      Fund fund = parseFund(fundNode);
-      funds.add(fund);
-    }
-
-    return funds;
-  }
-
-  private static Fund parseFund(JsonNode fundNode) {
-    JsonNode fundName = fundNode.get("name");
-    Fund fund = new Fund(fundName.asText());
-
-    for (JsonNode stockName : fundNode.get("stocks")) {
-      fund.addStock(stockName.asText());
-    }
-
-    return fund;
+    return new ObjectMapper().readValue(url, StockDataDTO.class);
   }
 }

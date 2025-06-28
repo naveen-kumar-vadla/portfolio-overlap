@@ -1,6 +1,6 @@
 package com.example.geektrust.util;
 
-import com.example.geektrust.core.Fund;
+import com.example.geektrust.dto.StockDataDTO;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -48,9 +48,9 @@ class FileReaderTest {
     @Test
     void shouldReadStocksData() throws Exception {
       String filePath = "stock_data.json";
-      List<Fund> funds = FileReader.readStockDataFromResources(filePath);
-      assertNotNull(funds);
-      assertFalse(funds.isEmpty());
+      StockDataDTO data = FileReader.readStockDataFromResources(filePath);
+      assertNotNull(data);
+      assertFalse(data.getFunds().isEmpty());
     }
 
     @Test
