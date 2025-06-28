@@ -4,6 +4,7 @@ import com.example.geektrust.core.command.AddStockCommand;
 import com.example.geektrust.core.command.CalculateOverlapCommand;
 import com.example.geektrust.core.command.Command;
 import com.example.geektrust.core.command.CurrentPortfolioCommand;
+import com.example.geektrust.core.model.OverlapResult;
 import com.example.geektrust.dto.FundDTO;
 import com.example.geektrust.dto.StockDataDTO;
 import com.example.geektrust.core.model.Portfolio;
@@ -66,11 +67,11 @@ class InputProcessorTest {
     CalculateOverlapCommand calculateOverlap = new CalculateOverlapCommand(fundAName);
     List<Command> commands = Arrays.asList(currentPortfolio, calculateOverlap);
     inputProcessor.processCommands(commands);
-    ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+    ArgumentCaptor<OverlapResult> captor = ArgumentCaptor.forClass(OverlapResult.class);
     verify(logger, Mockito.times(1)).info(captor.capture());
-    String overlaps = captor.getValue().trim();
+    OverlapResult overlaps = captor.getValue();
     assertNotNull(overlaps);
-    assertEquals(fundAName + SPACE_DELIMITER + fundBName + " 80.00%", overlaps);
+    assertEquals(fundAName + SPACE_DELIMITER + fundBName + " 80.00%", overlaps.toString());
   }
 
   @Test

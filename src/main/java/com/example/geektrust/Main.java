@@ -21,14 +21,15 @@ public class Main {
     Portfolio portfolio = new Portfolio();
     Logger logger = new Logger();
     CommandsParser commandsParser = new CommandsParser();
+    FileReader fileReader = new FileReader();
 
     try {
       String filePath = args.length > ZERO ? args[ZERO] : null;
-      List<String> inputs = FileReader.readLines(filePath);
+      List<String> inputs = fileReader.readLines(filePath);
       List<Command> commands = commandsParser.parseCommands(inputs);
 
       String stocksFilePath = "stock_data.json";
-      StockDataDTO data = FileReader.readStockDataFromResources(stocksFilePath);
+      StockDataDTO data = fileReader.readStockDataFromResources(stocksFilePath);
       fundManager.loadFunds(data);
 
       InputProcessor inputProcessor = new InputProcessor(fundManager, portfolio, logger);

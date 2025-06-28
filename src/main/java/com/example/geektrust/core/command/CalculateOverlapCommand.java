@@ -1,6 +1,7 @@
 package com.example.geektrust.core.command;
 
 import com.example.geektrust.core.model.Fund;
+import com.example.geektrust.core.model.OverlapResult;
 import com.example.geektrust.core.model.Portfolio;
 import com.example.geektrust.exception.FundNotFound;
 import com.example.geektrust.logger.Logger;
@@ -26,7 +27,8 @@ public class CalculateOverlapCommand implements Command {
   public void execute(FundManager fundManager, Portfolio portfolio, Logger logger) {
     try {
       Fund fund = fundManager.getFundByName(fundName);
-      portfolio.calculateAndLogOverlap(fund, logger);
+      List<OverlapResult> overlapResults = portfolio.calculateOverlaps(fund);
+      overlapResults.forEach(logger::info);
     } catch (FundNotFound e) {
       logger.info(FUND_NOT_FOUND);
     }

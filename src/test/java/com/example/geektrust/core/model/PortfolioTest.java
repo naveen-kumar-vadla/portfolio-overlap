@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
+import java.util.List;
+
+import static com.example.geektrust.AppConstants.ZERO;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -51,15 +54,12 @@ class PortfolioTest {
 
     portfolio.addFund(fundB);
 
-    portfolio.calculateAndLogOverlap(fundA, logger);
-    ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
-    verify(logger, Mockito.times(1)).info(captor.capture());
-    String overlap = captor.getValue();
-
-    assertNotNull(overlap);
+    List<OverlapResult> overlapResults = portfolio.calculateOverlaps(fundA);
+    assertNotNull(overlapResults);
+    assertEquals(1, overlapResults.size());
     double expectedPercentage = 50.0;
     String expected = String.format(AppConstants.OVERLAP_PERCENTAGE_FORMAT, fundA.getName(), fundB.getName(), expectedPercentage);
-    assertEquals(expected, overlap);
+    assertEquals(expected, overlapResults.get(ZERO).toString());
   }
 
   @Test
@@ -73,7 +73,9 @@ class PortfolioTest {
 
     portfolio.addFund(fundB);
 
-    portfolio.calculateAndLogOverlap(fundA, logger);
+    List<OverlapResult> overlapResults = portfolio.calculateOverlaps(fundA);
+    assertNotNull(overlapResults);
+    assertTrue(overlapResults.isEmpty());
     verifyNoMoreInteractions(logger);
   }
 }

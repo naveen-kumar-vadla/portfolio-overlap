@@ -23,7 +23,7 @@ public class CommandsParser {
     return commands;
   }
 
-  private static Command extractCommand(List<String> params) {
+  private Command extractCommand(List<String> params) {
     String commandType = params.get(ZERO);
     switch (commandType) {
       case ADD_STOCK:

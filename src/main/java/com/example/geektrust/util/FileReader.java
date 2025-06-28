@@ -11,13 +11,13 @@ import com.example.geektrust.dto.StockDataDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class FileReader {
-  private static void validateFilePath(String filePath) {
+  private void validateFilePath(String filePath) {
     if (filePath == null || filePath.isEmpty()) {
       throw new IllegalArgumentException("File path cannot be null or empty");
     }
   }
 
-  public static List<String> readLines(String filePath) throws Exception {
+  public List<String> readLines(String filePath) throws Exception {
     validateFilePath(filePath);
 
     List<String> lines = new ArrayList<>();
@@ -29,7 +29,7 @@ public class FileReader {
     return lines;
   }
 
-  public static StockDataDTO readStockDataFromResources(String resourcePath) throws Exception {
+  public StockDataDTO readStockDataFromResources(String resourcePath) throws Exception {
     validateFilePath(resourcePath);
     URL url = ClassLoader.getSystemResource(resourcePath);
     if (url == null) {

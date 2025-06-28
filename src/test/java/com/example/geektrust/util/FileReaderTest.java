@@ -10,13 +10,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FileReaderTest {
+  private final FileReader fileReader = new FileReader();
 
   @Nested
   class ReadLinesTests {
     @Test
     void shouldReadCommands() throws Exception {
       String filePath = "sample_input/input1.txt";
-      List<String> commands = FileReader.readLines(filePath);
+      List<String> commands = fileReader.readLines(filePath);
       assertNotNull(commands);
       assertFalse(commands.isEmpty());
     }
@@ -24,20 +25,20 @@ class FileReaderTest {
     @Test
     void shouldThrowExceptionForInvalidEmptyFilePath() {
       String filePath = "";
-      Exception exception = assertThrows(IllegalArgumentException.class, () -> FileReader.readLines(filePath));
+      Exception exception = assertThrows(IllegalArgumentException.class, () -> fileReader.readLines(filePath));
       assertEquals("File path cannot be null or empty", exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionForInvalidNullFilePath() {
-      Exception exception = assertThrows(IllegalArgumentException.class, () -> FileReader.readLines(null));
+      Exception exception = assertThrows(IllegalArgumentException.class, () -> fileReader.readLines(null));
       assertEquals("File path cannot be null or empty", exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionForWhenFileNotFound() {
       String filePath = "sample_input/unknown.txt";
-      Exception exception = assertThrows(FileNotFoundException.class, () -> FileReader.readLines(filePath));
+      Exception exception = assertThrows(FileNotFoundException.class, () -> fileReader.readLines(filePath));
       assertEquals(filePath + " (No such file or directory)", exception.getMessage());
     }
   }
@@ -47,7 +48,7 @@ class FileReaderTest {
     @Test
     void shouldReadStocksData() throws Exception {
       String filePath = "stock_data.json";
-      StockDataDTO data = FileReader.readStockDataFromResources(filePath);
+      StockDataDTO data = fileReader.readStockDataFromResources(filePath);
       assertNotNull(data);
       assertFalse(data.getFunds().isEmpty());
     }
@@ -55,20 +56,20 @@ class FileReaderTest {
     @Test
     void shouldThrowExceptionForInvalidEmptyFilePath() {
       String filePath = "";
-      Exception exception = assertThrows(IllegalArgumentException.class, () -> FileReader.readStockDataFromResources(filePath));
+      Exception exception = assertThrows(IllegalArgumentException.class, () -> fileReader.readStockDataFromResources(filePath));
       assertEquals("File path cannot be null or empty", exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionForInvalidNullFilePath() {
-      Exception exception = assertThrows(IllegalArgumentException.class, () -> FileReader.readStockDataFromResources(null));
+      Exception exception = assertThrows(IllegalArgumentException.class, () -> fileReader.readStockDataFromResources(null));
       assertEquals("File path cannot be null or empty", exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionForWhenFileNotFound() {
       String filePath = "unknown.json";
-      Exception exception = assertThrows(FileNotFoundException.class, () -> FileReader.readStockDataFromResources(filePath));
+      Exception exception = assertThrows(FileNotFoundException.class, () -> fileReader.readStockDataFromResources(filePath));
       assertEquals("Resource not found: " + filePath, exception.getMessage());
     }
   }

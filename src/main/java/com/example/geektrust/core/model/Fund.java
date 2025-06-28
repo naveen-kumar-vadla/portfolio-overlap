@@ -37,13 +37,17 @@ public class Fund {
     return stocks.stream().anyMatch(s -> Objects.equals(s.getName(), stockName));
   }
 
+  private List<Stock> getStocks() {
+    return stocks;
+  }
+
   private Long getCommonStocksCount(Fund other) {
-    return this.stocks.stream()
-        .filter(other.stocks::contains).count();
+    return this.getStocks().stream()
+        .filter(other.getStocks()::contains).count();
   }
 
   public Double overlapPercentage(Fund other) {
     Long commonStocksCount = this.getCommonStocksCount(other);
-    return COMMON_STOCKS_MULTIPLIER * (commonStocksCount) / (this.stocks.size() + other.stocks.size()) * MAX_PERCENTAGE;
+    return COMMON_STOCKS_MULTIPLIER * (commonStocksCount) / (getStocks().size() + other.getStocks().size()) * MAX_PERCENTAGE;
   }
 }

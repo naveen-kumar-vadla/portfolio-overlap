@@ -44,7 +44,7 @@ public class MainTest {
     Main.main(new String[]{inputFilePath});
     String output = outContent.toString().trim();
 
-    List<String> expectedResult = FileReader.readLines(outputPath);
+    List<String> expectedResult = new FileReader().readLines(outputPath);
 
     String expectedOutput = String.join(System.lineSeparator(), expectedResult).trim();
     assertEquals(expectedOutput, output);
