@@ -23,4 +23,9 @@ public class FundManager {
   public void loadFunds(List<Fund> funds) {
     this.funds.addAll(funds);
   }
+
+  public void addStock(String fundName, String stockName) {
+    Fund fund = getFundByName(fundName);
+    fund.addStock(stockName);
+  }
 }

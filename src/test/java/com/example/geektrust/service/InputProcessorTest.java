@@ -2,7 +2,6 @@ package com.example.geektrust.service;
 
 import com.example.geektrust.core.Fund;
 import com.example.geektrust.core.Portfolio;
-import com.example.geektrust.core.Stock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,6 +16,7 @@ class InputProcessorTest {
   private Portfolio portfolio;
   private final String fundAName = "fundA";
   private final String fundBName = "fundB";
+  private final String fundCName = "fundC";
   private Fund fundB;
   private InputProcessor inputProcessor;
 
@@ -31,10 +31,11 @@ class InputProcessorTest {
     fundB.addStock("stock1");
     fundB.addStock("stock2");
 
+    Fund fundC = new Fund(fundCName);
     portfolio = new Portfolio();
 
     FundManager fundManager = new FundManager();
-    fundManager.loadFunds(Arrays.asList(fundA, fundB));
+    fundManager.loadFunds(Arrays.asList(fundA, fundB, fundC));
     inputProcessor = new InputProcessor(fundManager, portfolio);
   }
 
@@ -43,7 +44,7 @@ class InputProcessorTest {
     List<String> currentPortfolio = Arrays.asList(CURRENT_PORTFOLIO, fundBName);
     List<List<String>> commands = Collections.singletonList(currentPortfolio);
     inputProcessor.processCommands(commands);
-    assertTrue(portfolio.getFunds().contains(fundB));
+    assertTrue(portfolio.hasFund(fundBName));
   }
 
   @Test
@@ -52,7 +53,7 @@ class InputProcessorTest {
     List<String> addStock = Arrays.asList(ADD_STOCK, fundBName, stock3);
     List<List<String>> commands = Collections.singletonList(addStock);
     inputProcessor.processCommands(commands);
-    assertTrue(fundB.getStocks().contains(new Stock(stock3)));
+    assertTrue(fundB.hasStock(stock3));
   }
 
   @Test

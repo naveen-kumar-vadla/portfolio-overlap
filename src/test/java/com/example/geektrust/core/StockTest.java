@@ -8,6 +8,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class StockTest {
   @Test
+  void shouldGiveName() {
+    String stockName = "ABC";
+    Stock stock = new Stock(stockName);
+    assertEquals(stockName, stock.getName());
+  }
+
+  @Test
   void shouldGiveTrueForEqual() {
     String stockName = "ABC";
     Stock stock1 = new Stock(stockName);

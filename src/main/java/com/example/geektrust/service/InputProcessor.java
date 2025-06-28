@@ -5,6 +5,7 @@ import com.example.geektrust.core.Fund;
 import com.example.geektrust.core.Portfolio;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.example.geektrust.AppConstants.*;
@@ -12,13 +13,11 @@ import static com.example.geektrust.AppConstants.*;
 public class InputProcessor {
   private final FundManager fundManager;
   private final Portfolio portfolio;
-  private final OverlapCalculator overlapCalculator;
   private final List<String> result;
 
   public InputProcessor(FundManager fundManager, Portfolio portfolio) {
     this.fundManager = fundManager;
     this.portfolio = portfolio;
-    this.overlapCalculator = new OverlapCalculator();
     this.result = new ArrayList<>();
   }
 
@@ -52,17 +51,18 @@ public class InputProcessor {
   private void addStockToFund(List<String> commandLine) {
     String fundName = commandLine.get(INDEX_1);
     String stockName = String.join(SPACE_DELIMITER, commandLine.subList(INDEX_2, commandLine.size()));
-    Fund fund = fundManager.getFundByName(fundName);
-    fund.addStock(stockName);
+    fundManager.addStock(fundName, stockName);
   }
 
   private void calculateOverlap(List<String> commandLine) {
     String fundName = commandLine.get(INDEX_1);
+    List<String> res;
     try {
       Fund fund = fundManager.getFundByName(fundName);
-      this.result.addAll(overlapCalculator.calculate(fund, portfolio));
+      res = portfolio.calculateOverlap(fund);
     } catch (FundNotFound e) {
-      this.result.add(FUND_NOT_FOUND);
+      res = Collections.singletonList(FUND_NOT_FOUND);
     }
+    this.result.addAll(res);
   }
 }

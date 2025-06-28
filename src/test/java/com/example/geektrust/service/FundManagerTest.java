@@ -38,4 +38,20 @@ class FundManagerTest {
     fundManager.loadFunds(funds);
     assertThrows(FundNotFound.class, () -> fundManager.getFundByName(fundA));
   }
+
+  @Test
+  void shouldAddStock() {
+    String fundA = "FundA";
+
+    List<Fund> funds = new ArrayList<>();
+    Fund fund = new Fund(fundA);
+    funds.add(fund);
+
+    fundManager.loadFunds(funds);
+    assertNotNull(fundManager.getFundByName(fundA));
+
+    String stockName = "StockX";
+    fundManager.addStock(fundA, stockName);
+    assertTrue(fund.hasStock(stockName));
+  }
 }
