@@ -4,17 +4,19 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 import com.example.geektrust.dto.StockDataDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import static com.example.geektrust.AppConstants.SPACE_DELIMITER;
-
 public class FileReader {
+  private static void validateFilePath(String filePath) {
+    if (filePath == null || filePath.isEmpty()) {
+      throw new IllegalArgumentException("File path cannot be null or empty");
+    }
+  }
+
   public static List<String> readLines(String filePath) throws Exception {
     validateFilePath(filePath);
 
@@ -25,18 +27,6 @@ public class FileReader {
       lines.add(scanner.nextLine());
     }
     return lines;
-  }
-
-  public static List<List<String>> readCommands(String filePath) throws Exception {
-    return readLines(filePath).stream()
-        .map(l -> Arrays.asList(l.trim().split(SPACE_DELIMITER)))
-        .collect(Collectors.toList());
-  }
-
-  private static void validateFilePath(String filePath) {
-    if (filePath == null || filePath.isEmpty()) {
-      throw new IllegalArgumentException("File path cannot be null or empty");
-    }
   }
 
   public static StockDataDTO readStockDataFromResources(String resourcePath) throws Exception {

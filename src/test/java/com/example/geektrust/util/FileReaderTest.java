@@ -12,11 +12,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class FileReaderTest {
 
   @Nested
-  class ReadCommandsTests {
+  class ReadLinesTests {
     @Test
     void shouldReadCommands() throws Exception {
       String filePath = "sample_input/input1.txt";
-      List<List<String>> commands = FileReader.readCommands(filePath);
+      List<String> commands = FileReader.readLines(filePath);
       assertNotNull(commands);
       assertFalse(commands.isEmpty());
     }
@@ -24,20 +24,20 @@ class FileReaderTest {
     @Test
     void shouldThrowExceptionForInvalidEmptyFilePath() {
       String filePath = "";
-      Exception exception = assertThrows(IllegalArgumentException.class, () -> FileReader.readCommands(filePath));
+      Exception exception = assertThrows(IllegalArgumentException.class, () -> FileReader.readLines(filePath));
       assertEquals("File path cannot be null or empty", exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionForInvalidNullFilePath() {
-      Exception exception = assertThrows(IllegalArgumentException.class, () -> FileReader.readCommands(null));
+      Exception exception = assertThrows(IllegalArgumentException.class, () -> FileReader.readLines(null));
       assertEquals("File path cannot be null or empty", exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionForWhenFileNotFound() {
       String filePath = "sample_input/unknown.txt";
-      Exception exception = assertThrows(FileNotFoundException.class, () -> FileReader.readCommands(filePath));
+      Exception exception = assertThrows(FileNotFoundException.class, () -> FileReader.readLines(filePath));
       assertEquals(filePath + " (No such file or directory)", exception.getMessage());
     }
   }
