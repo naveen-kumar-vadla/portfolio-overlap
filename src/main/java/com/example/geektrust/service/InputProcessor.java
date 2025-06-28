@@ -3,6 +3,7 @@ package com.example.geektrust.service;
 import com.example.geektrust.exception.FundNotFound;
 import com.example.geektrust.core.model.Fund;
 import com.example.geektrust.core.model.Portfolio;
+import com.example.geektrust.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,15 +14,15 @@ import static com.example.geektrust.AppConstants.*;
 public class InputProcessor {
   private final FundManager fundManager;
   private final Portfolio portfolio;
-  private final List<String> result;
+  private final Logger logger;
 
-  public InputProcessor(FundManager fundManager, Portfolio portfolio) {
+  public InputProcessor(FundManager fundManager, Portfolio portfolio, Logger logger) {
     this.fundManager = fundManager;
     this.portfolio = portfolio;
-    this.result = new ArrayList<>();
+    this.logger = logger;
   }
 
-  public List<String> processCommands(List<List<String>> commands) {
+  public void processCommands(List<List<String>> commands) {
     for (List<String> commandLine : commands) {
       String commandType = commandLine.get(ZERO);
       switch (commandType) {
@@ -36,8 +37,6 @@ public class InputProcessor {
           break;
       }
     }
-
-    return result;
   }
 
   private void generatePortfolio(List<String> commandLine) {
@@ -63,6 +62,6 @@ public class InputProcessor {
     } catch (FundNotFound e) {
       res = Collections.singletonList(FUND_NOT_FOUND);
     }
-    this.result.addAll(res);
+    logger.info(String.join(System.lineSeparator(), res));
   }
 }

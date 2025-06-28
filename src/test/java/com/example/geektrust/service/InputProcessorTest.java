@@ -3,8 +3,11 @@ package com.example.geektrust.service;
 import com.example.geektrust.dto.FundDTO;
 import com.example.geektrust.dto.StockDataDTO;
 import com.example.geektrust.core.model.Portfolio;
+import com.example.geektrust.logger.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,13 +15,16 @@ import java.util.List;
 
 import static com.example.geektrust.AppConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
 
 class InputProcessorTest {
+  private FundManager fundManager;
   private Portfolio portfolio;
+  private final Logger logger = Mockito.mock(Logger.class);
+
   private final String fundAName = "fundA";
   private final String fundBName = "fundB";
   private InputProcessor inputProcessor;
-  private FundManager fundManager;
 
   @BeforeEach
   void setUp() {
@@ -30,7 +36,7 @@ class InputProcessorTest {
     fundManager = new FundManager();
     portfolio = new Portfolio();
     fundManager.loadFunds(data);
-    inputProcessor = new InputProcessor(fundManager, portfolio);
+    inputProcessor = new InputProcessor(fundManager, portfolio, logger);
   }
 
   @Test
@@ -55,10 +61,12 @@ class InputProcessorTest {
     List<String> currentPortfolio = Arrays.asList(CURRENT_PORTFOLIO, fundBName);
     List<String> calculateOverlap = Arrays.asList(CALCULATE_OVERLAP, fundAName);
     List<List<String>> commands = Arrays.asList(currentPortfolio, calculateOverlap);
-    List<String> overlap = inputProcessor.processCommands(commands);
-    assertNotNull(overlap);
-    assertEquals(1, overlap.size());
-    assertEquals(fundAName + SPACE_DELIMITER + fundBName + " 80.00%", overlap.get(0));
+    inputProcessor.processCommands(commands);
+    ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+    verify(logger, Mockito.times(1)).info(captor.capture());
+    String overlaps = captor.getValue().trim();
+    assertNotNull(overlaps);
+    assertEquals(fundAName + SPACE_DELIMITER + fundBName + " 80.00%", overlaps);
   }
 
   @Test
@@ -66,9 +74,11 @@ class InputProcessorTest {
     List<String> currentPortfolio = Arrays.asList(CURRENT_PORTFOLIO, fundBName);
     List<String> calculateOverlap = Arrays.asList(CALCULATE_OVERLAP, "UNKNOWN");
     List<List<String>> commands = Arrays.asList(currentPortfolio, calculateOverlap);
-    List<String> overlap = inputProcessor.processCommands(commands);
-    assertNotNull(overlap);
-    assertEquals(1, overlap.size());
-    assertEquals(FUND_NOT_FOUND, overlap.get(0));
+    inputProcessor.processCommands(commands);
+    ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+    verify(logger, Mockito.times(1)).info(captor.capture());
+    String overlaps = captor.getValue().trim();
+    assertNotNull(overlaps);
+    assertEquals(FUND_NOT_FOUND, overlaps);
   }
 }
