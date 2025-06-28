@@ -1,5 +1,7 @@
 package com.example.geektrust.core.model;
 
+import com.example.geektrust.logger.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,14 +23,12 @@ public class Portfolio {
     return funds.stream().anyMatch(f -> f.getName().equals(fundName));
   }
 
-  public List<String> calculateOverlap(Fund fund) {
-    List<String> overlaps = new ArrayList<>();
+  public void calculateAndLogOverlap(Fund fund, Logger logger) {
     for (Fund portfolioFund : funds) {
       Double percentage = fund.overlapPercentage(portfolioFund);
       if (percentage <= ZERO) continue;
       String overLap = String.format(OVERLAP_PERCENTAGE_FORMAT, fund.getName(), portfolioFund.getName(), percentage);
-      overlaps.add(overLap);
+      logger.info(overLap);
     }
-    return overlaps;
   }
 }

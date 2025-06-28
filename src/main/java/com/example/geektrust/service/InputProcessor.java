@@ -51,13 +51,11 @@ public class InputProcessor {
   }
 
   private void calculateOverlap(CalculateOverlapCommand command) {
-    List<String> res;
     try {
       Fund fund = fundManager.getFundByName(command.getFundName());
-      res = portfolio.calculateOverlap(fund);
+      portfolio.calculateAndLogOverlap(fund, logger);
     } catch (FundNotFound e) {
-      res = Collections.singletonList(FUND_NOT_FOUND);
+      logger.info(FUND_NOT_FOUND);
     }
-    logger.info(String.join(System.lineSeparator(), res));
   }
 }
