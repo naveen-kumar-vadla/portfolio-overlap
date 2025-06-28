@@ -10,8 +10,8 @@ import static com.example.geektrust.AppConstants.COMMON_STOCKS_MULTIPLIER;
 import static com.example.geektrust.AppConstants.MAX_PERCENTAGE;
 
 public class Fund {
-  String name;
-  List<Stock> stocks;
+  final String name;
+  final List<Stock> stocks;
 
   public Fund(String fundName) {
     this.name = fundName;

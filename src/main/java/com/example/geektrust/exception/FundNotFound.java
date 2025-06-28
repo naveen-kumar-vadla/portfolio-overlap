@@ -1,7 +1,7 @@
 package com.example.geektrust.exception;
 
 public class FundNotFound extends RuntimeException {
-  String fundName;
+  final String fundName;
 
   public FundNotFound(String fundName) {
     super("Fund not found: " + fundName);

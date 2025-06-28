@@ -8,13 +8,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.io.PrintStream;
-import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import static junit.framework.Assert.assertEquals;
 

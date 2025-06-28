@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FundManager {
-  List<Fund> funds;
+  final List<Fund> funds;
 
   public FundManager() {
     this.funds = new ArrayList<>();

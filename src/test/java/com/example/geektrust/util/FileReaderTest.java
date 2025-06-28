@@ -30,8 +30,7 @@ class FileReaderTest {
 
     @Test
     void shouldThrowExceptionForInvalidNullFilePath() {
-      String filePath = null;
-      Exception exception = assertThrows(IllegalArgumentException.class, () -> FileReader.readCommands(filePath));
+      Exception exception = assertThrows(IllegalArgumentException.class, () -> FileReader.readCommands(null));
       assertEquals("File path cannot be null or empty", exception.getMessage());
     }
 
@@ -62,8 +61,7 @@ class FileReaderTest {
 
     @Test
     void shouldThrowExceptionForInvalidNullFilePath() {
-      String filePath = null;
-      Exception exception = assertThrows(IllegalArgumentException.class, () -> FileReader.readStockDataFromResources(filePath));
+      Exception exception = assertThrows(IllegalArgumentException.class, () -> FileReader.readStockDataFromResources(null));
       assertEquals("File path cannot be null or empty", exception.getMessage());
     }
 

@@ -7,7 +7,7 @@ import static com.example.geektrust.AppConstants.OVERLAP_PERCENTAGE_FORMAT;
 import static com.example.geektrust.AppConstants.ZERO;
 
 public class Portfolio {
-  List<Fund> funds;
+  final List<Fund> funds;
 
   public Portfolio() {
     this.funds = new ArrayList<>();

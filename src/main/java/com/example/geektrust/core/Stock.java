@@ -3,7 +3,7 @@ package com.example.geektrust.core;
 import java.util.Objects;
 
 public class Stock {
-  String name;
+  final String name;
 
   public Stock(String stockName) {
     this.name = stockName;
