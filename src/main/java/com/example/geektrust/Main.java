@@ -9,7 +9,7 @@ import com.example.geektrust.util.FileReader;
 
 import java.util.List;
 
-import static com.example.geektrust.util.AppConstants.ZERO;
+import static com.example.geektrust.AppConstants.ZERO;
 
 public class Main {
   public static void main(String[] args) {

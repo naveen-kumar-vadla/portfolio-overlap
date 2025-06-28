@@ -13,6 +13,8 @@ import com.example.geektrust.domain.model.Fund;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import static com.example.geektrust.AppConstants.SPACE_DELIMITER;
+
 public class FileReader {
   public static List<List<String>> readCommands(String filePath) throws Exception {
     validateFilePath(filePath);
@@ -25,7 +27,7 @@ public class FileReader {
     }
 
     return lines.stream()
-        .map(l -> Arrays.asList(l.trim().split(" ")))
+        .map(l -> Arrays.asList(l.trim().split(SPACE_DELIMITER)))
         .collect(Collectors.toList());
   }
 

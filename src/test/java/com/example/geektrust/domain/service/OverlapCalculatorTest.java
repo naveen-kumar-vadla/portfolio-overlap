@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.example.geektrust.AppConstants.SPACE_DELIMITER;
 import static org.junit.jupiter.api.Assertions.*;
 
 class OverlapCalculatorTest {
@@ -41,6 +42,6 @@ class OverlapCalculatorTest {
     assertNotNull(overlap);
     assertFalse(overlap.isEmpty());
     assertEquals(1, overlap.size());
-    assertEquals(fundAName + " " + fundBName + " 80.00%", overlap.get(0));
+    assertEquals(fundAName + SPACE_DELIMITER + fundBName + " 80.00%", overlap.get(0));
   }
 }
