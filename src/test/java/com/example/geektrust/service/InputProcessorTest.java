@@ -1,5 +1,9 @@
 package com.example.geektrust.service;
 
+import com.example.geektrust.core.command.AddStockCommand;
+import com.example.geektrust.core.command.CalculateOverlapCommand;
+import com.example.geektrust.core.command.Command;
+import com.example.geektrust.core.command.CurrentPortfolioCommand;
 import com.example.geektrust.dto.FundDTO;
 import com.example.geektrust.dto.StockDataDTO;
 import com.example.geektrust.core.model.Portfolio;
@@ -41,8 +45,8 @@ class InputProcessorTest {
 
   @Test
   void shouldProcessCurrentPortfolioCommand() {
-    List<String> currentPortfolio = Arrays.asList(CURRENT_PORTFOLIO, fundBName);
-    List<List<String>> commands = Collections.singletonList(currentPortfolio);
+    CurrentPortfolioCommand currentPortfolio = new CurrentPortfolioCommand(Collections.singletonList(fundBName));
+    List<Command> commands = Collections.singletonList(currentPortfolio);
     inputProcessor.processCommands(commands);
     assertTrue(portfolio.hasFund(fundBName));
   }
@@ -50,17 +54,17 @@ class InputProcessorTest {
   @Test
   void shouldProcessAddStockCommand() {
     String stockName = "stockName";
-    List<String> addStock = Arrays.asList(ADD_STOCK, fundBName, stockName);
-    List<List<String>> commands = Collections.singletonList(addStock);
+    AddStockCommand addStock = new AddStockCommand(fundBName, stockName);
+    List<Command> commands = Collections.singletonList(addStock);
     inputProcessor.processCommands(commands);
     assertTrue(fundManager.getFundByName(fundBName).hasStock(stockName));
   }
 
   @Test
   void shouldProcessCalculateOverlap() {
-    List<String> currentPortfolio = Arrays.asList(CURRENT_PORTFOLIO, fundBName);
-    List<String> calculateOverlap = Arrays.asList(CALCULATE_OVERLAP, fundAName);
-    List<List<String>> commands = Arrays.asList(currentPortfolio, calculateOverlap);
+    CurrentPortfolioCommand currentPortfolio = new CurrentPortfolioCommand(Collections.singletonList(fundBName));
+    CalculateOverlapCommand calculateOverlap = new CalculateOverlapCommand(fundAName);
+    List<Command> commands = Arrays.asList(currentPortfolio, calculateOverlap);
     inputProcessor.processCommands(commands);
     ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
     verify(logger, Mockito.times(1)).info(captor.capture());
@@ -71,9 +75,9 @@ class InputProcessorTest {
 
   @Test
   void shouldProvideNotFoundForCalculateOverlapWhenFundNotFound() {
-    List<String> currentPortfolio = Arrays.asList(CURRENT_PORTFOLIO, fundBName);
-    List<String> calculateOverlap = Arrays.asList(CALCULATE_OVERLAP, "UNKNOWN");
-    List<List<String>> commands = Arrays.asList(currentPortfolio, calculateOverlap);
+    CurrentPortfolioCommand currentPortfolio = new CurrentPortfolioCommand(Collections.singletonList(fundBName));
+    CalculateOverlapCommand calculateOverlap = new CalculateOverlapCommand("UNKNOWN");
+    List<Command> commands = Arrays.asList(currentPortfolio, calculateOverlap);
     inputProcessor.processCommands(commands);
     ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
     verify(logger, Mockito.times(1)).info(captor.capture());

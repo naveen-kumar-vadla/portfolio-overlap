@@ -22,7 +22,7 @@ public class FundManager {
   }
 
   public void loadFunds(StockDataDTO stockData) {
-    stockData.getFunds().stream().map(Fund::create).forEach(fund -> this.funds.add(fund));
+    stockData.getFunds().stream().map(Fund::create).forEach(this.funds::add);
   }
 
   public void addStock(String fundName, String stockName) {

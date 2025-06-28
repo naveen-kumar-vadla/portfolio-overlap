@@ -1,11 +1,11 @@
 package com.example.geektrust.service;
 
+import com.example.geektrust.core.command.*;
 import com.example.geektrust.exception.FundNotFound;
 import com.example.geektrust.core.model.Fund;
 import com.example.geektrust.core.model.Portfolio;
 import com.example.geektrust.logger.Logger;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,42 +22,38 @@ public class InputProcessor {
     this.logger = logger;
   }
 
-  public void processCommands(List<List<String>> commands) {
-    for (List<String> commandLine : commands) {
-      String commandType = commandLine.get(ZERO);
+  public void processCommands(List<Command> commands) {
+    for (Command command : commands) {
+      CommandType commandType = command.getType();
       switch (commandType) {
         case CURRENT_PORTFOLIO:
-          generatePortfolio(commandLine);
+          generatePortfolio((CurrentPortfolioCommand) command);
           break;
         case ADD_STOCK:
-          addStockToFund(commandLine);
+          addStockToFund((AddStockCommand) command);
           break;
         case CALCULATE_OVERLAP:
-          calculateOverlap(commandLine);
+          calculateOverlap((CalculateOverlapCommand) command);
           break;
       }
     }
   }
 
-  private void generatePortfolio(List<String> commandLine) {
-    List<String> funds = commandLine.subList(INDEX_1, commandLine.size());
-    funds.forEach(fundName -> {
+  private void generatePortfolio(CurrentPortfolioCommand command) {
+    command.getFunds().forEach(fundName -> {
       Fund fund = fundManager.getFundByName(fundName);
       portfolio.addFund(fund);
     });
   }
 
-  private void addStockToFund(List<String> commandLine) {
-    String fundName = commandLine.get(INDEX_1);
-    String stockName = String.join(SPACE_DELIMITER, commandLine.subList(INDEX_2, commandLine.size()));
-    fundManager.addStock(fundName, stockName);
+  private void addStockToFund(AddStockCommand command) {
+    fundManager.addStock(command.getFundName(), command.getStockName());
   }
 
-  private void calculateOverlap(List<String> commandLine) {
-    String fundName = commandLine.get(INDEX_1);
+  private void calculateOverlap(CalculateOverlapCommand command) {
     List<String> res;
     try {
-      Fund fund = fundManager.getFundByName(fundName);
+      Fund fund = fundManager.getFundByName(command.getFundName());
       res = portfolio.calculateOverlap(fund);
     } catch (FundNotFound e) {
       res = Collections.singletonList(FUND_NOT_FOUND);

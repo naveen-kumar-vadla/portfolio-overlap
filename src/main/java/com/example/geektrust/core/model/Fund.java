@@ -39,7 +39,7 @@ public class Fund {
 
   private Long getCommonStocksCount(Fund other) {
     return this.stocks.stream()
-        .filter(s -> other.stocks.contains(s)).count();
+        .filter(other.stocks::contains).count();
   }
 
   public Double overlapPercentage(Fund other) {
