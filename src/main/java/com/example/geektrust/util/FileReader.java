@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import static com.example.geektrust.AppConstants.SPACE_DELIMITER;
 
 public class FileReader {
-  public static List<List<String>> readCommands(String filePath) throws Exception {
+  public static List<String> readLines(String filePath) throws Exception {
     validateFilePath(filePath);
 
     List<String> lines = new ArrayList<>();
@@ -24,8 +24,11 @@ public class FileReader {
     while (scanner.hasNextLine()) {
       lines.add(scanner.nextLine());
     }
+    return lines;
+  }
 
-    return lines.stream()
+  public static List<List<String>> readCommands(String filePath) throws Exception {
+    return readLines(filePath).stream()
         .map(l -> Arrays.asList(l.trim().split(SPACE_DELIMITER)))
         .collect(Collectors.toList());
   }

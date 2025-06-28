@@ -1,5 +1,6 @@
 package com.example.geektrust;
 
+import com.example.geektrust.util.FileReader;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,13 +48,8 @@ public class MainTest {
     Main.main(new String[]{inputFilePath});
     String output = outContent.toString().trim();
 
-    List<String> expectedResult = new ArrayList<>();
-    FileInputStream fileInputStream = new FileInputStream(outputPath);
-    Scanner scanner = new Scanner(fileInputStream);
-    while (scanner.hasNextLine()) {
-      expectedResult.add(scanner.nextLine());
-    }
-    
+    List<String> expectedResult = FileReader.readLines(outputPath);
+
     String expectedOutput = String.join("\n", expectedResult).trim();
     assertEquals(expectedOutput, output);
   }
