@@ -26,9 +26,13 @@ public class Portfolio {
   public void calculateAndLogOverlap(Fund fund, Logger logger) {
     for (Fund portfolioFund : funds) {
       Double percentage = fund.overlapPercentage(portfolioFund);
-      if (percentage <= ZERO) continue;
-      String overLap = String.format(OVERLAP_PERCENTAGE_FORMAT, fund.getName(), portfolioFund.getName(), percentage);
-      logger.info(overLap);
+      logOverLapIfApplicable(fund, portfolioFund, percentage, logger);
     }
+  }
+
+  private static void logOverLapIfApplicable(Fund fund, Fund portfolioFund, Double percentage, Logger logger) {
+    if (percentage <= ZERO) return;
+    String overLap = String.format(OVERLAP_PERCENTAGE_FORMAT, fund.getName(), portfolioFund.getName(), percentage);
+    logger.info(overLap);
   }
 }

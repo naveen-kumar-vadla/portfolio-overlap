@@ -1,5 +1,16 @@
 package com.example.geektrust.core.command;
 
+import com.example.geektrust.core.model.Fund;
+import com.example.geektrust.core.model.Portfolio;
+import com.example.geektrust.exception.FundNotFound;
+import com.example.geektrust.logger.Logger;
+import com.example.geektrust.service.FundManager;
+
+import java.util.List;
+
+import static com.example.geektrust.AppConstants.FUND_NOT_FOUND;
+import static com.example.geektrust.AppConstants.INDEX_1;
+
 public class CalculateOverlapCommand implements Command {
   final String fundName;
 
@@ -7,12 +18,17 @@ public class CalculateOverlapCommand implements Command {
     this.fundName = fundName;
   }
 
-  public String getFundName() {
-    return fundName;
+  public static Command create(List<String> params) {
+    return new CalculateOverlapCommand(params.get(INDEX_1));
   }
 
   @Override
-  public CommandType getType() {
-    return CommandType.CALCULATE_OVERLAP;
+  public void execute(FundManager fundManager, Portfolio portfolio, Logger logger) {
+    try {
+      Fund fund = fundManager.getFundByName(fundName);
+      portfolio.calculateAndLogOverlap(fund, logger);
+    } catch (FundNotFound e) {
+      logger.info(FUND_NOT_FOUND);
+    }
   }
 }

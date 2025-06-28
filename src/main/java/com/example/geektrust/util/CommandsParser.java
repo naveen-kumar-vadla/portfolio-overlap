@@ -27,13 +27,11 @@ public class CommandsParser {
     String commandType = params.get(ZERO);
     switch (commandType) {
       case ADD_STOCK:
-        String stockName = String.join(SPACE_DELIMITER, params.subList(INDEX_2, params.size()));
-        return new AddStockCommand(params.get(INDEX_1), stockName);
+        return AddStockCommand.create(params);
       case CALCULATE_OVERLAP:
-        return new CalculateOverlapCommand(params.get(INDEX_1));
+        return CalculateOverlapCommand.create(params);
       case CURRENT_PORTFOLIO:
-        List<String> funds = params.subList(INDEX_1, params.size());
-        return new CurrentPortfolioCommand(funds);
+        return CurrentPortfolioCommand.create(params);
       default:
         throw new UnknownCommandException(commandType);
     }

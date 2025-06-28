@@ -23,39 +23,6 @@ public class InputProcessor {
   }
 
   public void processCommands(List<Command> commands) {
-    for (Command command : commands) {
-      CommandType commandType = command.getType();
-      switch (commandType) {
-        case CURRENT_PORTFOLIO:
-          generatePortfolio((CurrentPortfolioCommand) command);
-          break;
-        case ADD_STOCK:
-          addStockToFund((AddStockCommand) command);
-          break;
-        case CALCULATE_OVERLAP:
-          calculateOverlap((CalculateOverlapCommand) command);
-          break;
-      }
-    }
-  }
-
-  private void generatePortfolio(CurrentPortfolioCommand command) {
-    command.getFunds().forEach(fundName -> {
-      Fund fund = fundManager.getFundByName(fundName);
-      portfolio.addFund(fund);
-    });
-  }
-
-  private void addStockToFund(AddStockCommand command) {
-    fundManager.addStock(command.getFundName(), command.getStockName());
-  }
-
-  private void calculateOverlap(CalculateOverlapCommand command) {
-    try {
-      Fund fund = fundManager.getFundByName(command.getFundName());
-      portfolio.calculateAndLogOverlap(fund, logger);
-    } catch (FundNotFound e) {
-      logger.info(FUND_NOT_FOUND);
-    }
+    commands.forEach(command -> command.execute(fundManager, portfolio, logger));
   }
 }
