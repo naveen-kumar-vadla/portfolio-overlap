@@ -14,10 +14,10 @@ public class Stock {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    Stock stock = (Stock) o;
+  public boolean equals(Object other) {
+    if (this == other) return true;
+    if (other == null || getClass() != other.getClass()) return false;
+    Stock stock = (Stock) other;
     return name.equals(stock.name);
   }
 

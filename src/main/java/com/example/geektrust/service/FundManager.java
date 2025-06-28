@@ -16,7 +16,7 @@ public class FundManager {
 
   public Fund getFundByName(String fundName) {
     return this.funds.stream()
-        .filter(f -> f.getName().equals(fundName))
+        .filter(fund -> fund.getName().equals(fundName))
         .findFirst()
         .orElseThrow(() -> new FundNotFound(fundName));
   }
