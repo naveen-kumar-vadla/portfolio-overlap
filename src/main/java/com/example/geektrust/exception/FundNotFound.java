@@ -1,4 +1,4 @@
-package com.example.geektrust.domain.exception;
+package com.example.geektrust.exception;
 
 public class FundNotFound extends RuntimeException {
   String fundName;

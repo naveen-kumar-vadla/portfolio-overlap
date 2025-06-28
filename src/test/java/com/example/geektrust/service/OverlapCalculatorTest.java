@@ -1,11 +1,10 @@
-package com.example.geektrust.domain.service;
+package com.example.geektrust.service;
 
-import com.example.geektrust.domain.model.Fund;
-import com.example.geektrust.domain.model.Portfolio;
+import com.example.geektrust.core.Fund;
+import com.example.geektrust.core.Portfolio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static com.example.geektrust.AppConstants.SPACE_DELIMITER;

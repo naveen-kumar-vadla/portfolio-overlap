@@ -1,7 +1,7 @@
-package com.example.geektrust.domain.service;
+package com.example.geektrust.service;
 
-import com.example.geektrust.domain.exception.FundNotFound;
-import com.example.geektrust.domain.model.Fund;
+import com.example.geektrust.exception.FundNotFound;
+import com.example.geektrust.core.Fund;
 
 import java.util.ArrayList;
 import java.util.List;

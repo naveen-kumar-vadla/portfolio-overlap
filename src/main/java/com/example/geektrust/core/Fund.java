@@ -1,4 +1,4 @@
-package com.example.geektrust.domain.model;
+package com.example.geektrust.core;
 
 import java.util.ArrayList;
 import java.util.List;

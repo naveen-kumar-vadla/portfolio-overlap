@@ -1,11 +1,10 @@
 package com.example.geektrust.util;
 
-import com.example.geektrust.domain.model.Fund;
+import com.example.geektrust.core.Fund;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
-import java.nio.file.NoSuchFileException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;

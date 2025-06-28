@@ -1,10 +1,10 @@
 package com.example.geektrust;
 
 
-import com.example.geektrust.domain.model.Portfolio;
-import com.example.geektrust.domain.service.FundManager;
-import com.example.geektrust.domain.service.InputProcessor;
-import com.example.geektrust.domain.model.Fund;
+import com.example.geektrust.core.Portfolio;
+import com.example.geektrust.service.FundManager;
+import com.example.geektrust.service.InputProcessor;
+import com.example.geektrust.core.Fund;
 import com.example.geektrust.util.FileReader;
 
 import java.util.List;
