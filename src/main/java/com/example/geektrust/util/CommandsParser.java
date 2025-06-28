@@ -26,12 +26,14 @@ public class CommandsParser {
   private static Command extractCommand(List<String> params) {
     String commandType = params.get(ZERO);
     switch (commandType) {
-      case AppConstants.ADD_STOCK:
-        return new AddStockCommand(params.get(INDEX_1), params.get(INDEX_2));
-      case AppConstants.CALCULATE_OVERLAP:
+      case ADD_STOCK:
+        String stockName = String.join(SPACE_DELIMITER, params.subList(INDEX_2, params.size()));
+        return new AddStockCommand(params.get(INDEX_1), stockName);
+      case CALCULATE_OVERLAP:
         return new CalculateOverlapCommand(params.get(INDEX_1));
-      case AppConstants.CURRENT_PORTFOLIO:
-        return new CurrentPortfolioCommand(params.subList(INDEX_1, params.size()));
+      case CURRENT_PORTFOLIO:
+        List<String> funds = params.subList(INDEX_1, params.size());
+        return new CurrentPortfolioCommand(funds);
       default:
         throw new UnknownCommandException(commandType);
     }
