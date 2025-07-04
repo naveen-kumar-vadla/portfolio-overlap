@@ -34,7 +34,7 @@ public class Fund {
   }
 
   public boolean hasStock(String stockName) {
-    return stocks.stream().anyMatch(stock -> Objects.equals(stock.getName(), stockName));
+    return getStocks().stream().anyMatch(stock -> Objects.equals(stock.getName(), stockName));
   }
 
   private List<Stock> getStocks() {

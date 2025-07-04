@@ -25,7 +25,8 @@ public class Portfolio {
     for (Fund portfolioFund : funds) {
       Double percentage = targetFund.overlapPercentage(portfolioFund);
       if (percentage <= ZERO) continue;
-      overlapResults.add(new OverlapResult(targetFund.getName(), portfolioFund.getName(), percentage));
+      OverlapResult overlapResult = new OverlapResult(targetFund.getName(), portfolioFund.getName(), percentage);
+      overlapResults.add(overlapResult);
     }
     return overlapResults;
   }
